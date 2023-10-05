@@ -8,3 +8,8 @@
   "petsAllowed": true,
   "organizer": "Kat Laydee"
 }
+
+{
+  "organizationName": "Brody Kill",
+  "address": "Somewhere."
+}

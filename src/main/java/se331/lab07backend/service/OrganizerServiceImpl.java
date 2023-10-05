@@ -1,11 +1,12 @@
 package se331.lab07backend.service;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import se331.lab07backend.dao.OrganizerDao;
 import se331.lab07backend.entity.Organizer;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,12 +18,17 @@ public class OrganizerServiceImpl implements OrganizerService{
     }
 
     @Override
-    public List<Organizer> getOrganizers(Integer pageSize, Integer page) {
+    public Page<Organizer> getOrganizers(Integer pageSize, Integer page) {
         return orgDao.getOrganizers(pageSize, page);
     }
 
     @Override
     public Organizer getOrganizer(Long id) {
         return orgDao.getOrganizer(id);
+    }
+
+    @Override
+    public Organizer save(Organizer org) {
+        return orgDao.save(org);
     }
 }
