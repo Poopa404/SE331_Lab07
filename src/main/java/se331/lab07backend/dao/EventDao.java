@@ -2,10 +2,12 @@ package se331.lab07backend.dao;
 
 import se331.lab07backend.entity.Event;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface EventDao {
     Integer getEventSize();
-    List<Event> getEvents(Integer pageSize, Integer page);
+    Page<Event> getEvents(Integer pageSize, Integer page);
     Event getEvent(Long id);
+    Event save(Event event);
+
 }

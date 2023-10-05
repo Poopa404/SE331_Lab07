@@ -1,0 +1,10 @@
+{
+  "category": "something new",
+  "title": "New Event Add",
+  "description": "new things at new place.",
+  "location": "new place",
+  "date": "January 1, 2022",
+  "time": "01:00",
+  "petsAllowed": true,
+  "organizer": "Kat Laydee"
+}

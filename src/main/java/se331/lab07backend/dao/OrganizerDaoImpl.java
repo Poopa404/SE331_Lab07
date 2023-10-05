@@ -2,7 +2,6 @@ package se331.lab07backend.dao;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
-import se331.lab07backend.entity.Event;
 import se331.lab07backend.entity.Organizer;
 
 import java.util.ArrayList;
