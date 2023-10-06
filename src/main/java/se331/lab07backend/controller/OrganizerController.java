@@ -30,6 +30,7 @@ public class OrganizerController {
                                            @RequestParam(value ="_page",required = false) Integer page){
         Page<Organizer> pageOutput = organizerService.getOrganizers(perPage, page);                                    
         HttpHeaders responseHeader = new HttpHeaders();
+        responseHeader.set("x-total-count", String.valueOf(pageOutput.getTotalElements()));
         return new ResponseEntity<>(pageOutput.getContent(),responseHeader,HttpStatus.OK);
     }
 
