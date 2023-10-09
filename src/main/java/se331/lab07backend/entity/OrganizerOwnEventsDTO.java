@@ -1,7 +1,5 @@
 package se331.lab07backend.entity;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +19,5 @@ public class OrganizerOwnEventsDTO {
     String date;
     String time;
     Boolean petAllowed;
-    List<Participant> participants;
 
 }

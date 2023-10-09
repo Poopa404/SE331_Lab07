@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class OrganizerDTO {
     Long id;
     String name;
+    @Builder.Default
     List<OrganizerOwnEventsDTO> ownEvents = new ArrayList<>();
-
+    List<String> images;
 }

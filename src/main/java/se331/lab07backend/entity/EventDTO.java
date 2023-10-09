@@ -22,6 +22,7 @@ public class EventDTO {
     String time;
     Boolean petAllowed;
     EventOrganizerDTO organizer;
+    @Builder.Default
     List<ParticipantDTO> participants = new ArrayList<>();
-
+    List<String> images;
 }

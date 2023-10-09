@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
+import se331.lab07backend.entity.Event;
 import se331.lab07backend.entity.Organizer;
 import se331.lab07backend.repository.OrganizerRepository;
 
@@ -23,5 +24,12 @@ public class OrganizerDaoImpl implements OrganizerDao {
     public Optional<Organizer> findById(Long id) {
         return organizerRepository.findById(id);
     }
-
+    @Override
+    public Organizer getOrganizer(Long id) {
+        return organizerRepository.findById(id).orElse(null);
+    }
+    @Override
+    public Organizer save(Organizer organizer) {
+        return organizerRepository.save(organizer);
+    }
 }

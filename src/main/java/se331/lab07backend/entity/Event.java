@@ -3,6 +3,7 @@ package se331.lab07backend.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,4 +39,6 @@ public class Event {
     @Builder.Default
     @ManyToMany(mappedBy = "eventHistory")
     List<Participant> participants = new ArrayList<>();
+    @ElementCollection
+    List<String> images;
 }

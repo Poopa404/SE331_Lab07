@@ -3,6 +3,7 @@ package se331.lab07backend.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,5 +30,6 @@ public class Organizer {
     @Builder.Default
     @OneToMany(mappedBy = "organizer")
     List<Event> ownEvents = new ArrayList<>();
-
+    @ElementCollection
+    List<String> images;
 }
