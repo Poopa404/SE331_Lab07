@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
-import se331.lab07backend.entity.Event;
 import se331.lab07backend.entity.Organizer;
 import se331.lab07backend.repository.OrganizerRepository;
 

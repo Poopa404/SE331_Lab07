@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import se331.lab07backend.dao.OrganizerDao;
-import se331.lab07backend.entity.Event;
 import se331.lab07backend.entity.Organizer;
 
 @Service

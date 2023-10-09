@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import se331.lab07backend.entity.Event;
 import se331.lab07backend.entity.Organizer;
 
 public interface OrganizerService {
