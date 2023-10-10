@@ -45,7 +45,7 @@ jobs:
                 name: copy file via ssh password
                 uses: appleboy/scp-action@v0.1.4
                 with:
-                    host: ${{ secrets.HOST_SERVER }}
+                    host: http://54.81.251.214/
                     username: ${{ secrets.HOST_USER_NAME }}
                     key: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
                     port: 22
