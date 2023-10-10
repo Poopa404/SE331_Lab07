@@ -48,7 +48,7 @@ jobs:
                     host: ${{ secrets.HOST_SERVER }}
                     username: ${{ secrets.HOST_USER_NAME }}
                     key: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
-                    ports: 22
+                    port: 22
                     source: "docker-compose.yml"
                     target: "/home/ubuntu/backend"
             -
@@ -58,7 +58,7 @@ jobs:
                     host: ${{ secrets.HOST_SERVER }}
                     username: ${{ secrets.HOST_USER_NAME }}
                     key: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
-                    ports: 22
+                    port: 22
                     script: |
                         cd /home/ubuntu/backend
                         echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login --username ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
