@@ -14,6 +14,7 @@ import se331.lab07backend.security.token.Token;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ public class User implements UserDetails {
   private String parentId;
   private String firstname;
   private String lastname;
+  private Date lastPasswordResetDate;
   @Column(unique = true)
   private String username;
   private String email;

@@ -1,7 +1,13 @@
 package se331.lab07backend.config;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import jakarta.transaction.Transactional;
@@ -12,6 +18,9 @@ import se331.lab07backend.entity.Participant;
 import se331.lab07backend.repository.EventRepository;
 import se331.lab07backend.repository.OrganizerRepository;
 import se331.lab07backend.repository.ParticipantRepository;
+import se331.lab07backend.security.user.Role;
+import se331.lab07backend.security.user.User;
+import se331.lab07backend.security.user.UserRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -19,6 +28,7 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
     final EventRepository eventRepository;
     final OrganizerRepository organizerRepository;
     final ParticipantRepository participantRepository;
+    final UserRepository userRepository;
     @Override
     @Transactional
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
@@ -125,70 +135,46 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
         par5.getEventHistory().add(tempEvent);
         org3.getOwnEvents().add(tempEvent);
 
+        addUser();
+    }
 
-        // eventRepository.save(Event.builder()
-            // .category("Academic")
-            // .title("Midterm Exam")
-            // .description("A time for taking the exam")
-            // .location("CAMT Building")
-            // .date("3rd Sept")
-            // .time("3.00-4.00 pm.")
-            // .petAllowed(false)
-            // .build());
-        // eventRepository.save(Event.builder()
-            // .category("Academic")
-            // .title("Commencement Day")
-            // .description("A time for celebration")
-            // .location("CMU Convention hall")
-            // .date("21th Jan")
-            // .time("8.00am-4.00 pm.")
-            // .petAllowed(false)
-            // .build());
-        // eventRepository.save(Event.builder()
-            // .category("Cultural")
-            // .title("Loy Krathong")
-            // .description("A time for Krathong")
-            // .location("Ping River")
-            // .date("21th Nov")
-            // .time("8.00-10.00 pm.")
-            // .petAllowed(false)
-            // .build());
-        // eventRepository.save(Event.builder()
-            // .category("Cultural")
-            // .title("Songkran")
-            // .description("Let's Play Water")
-            // .location("Chiang Mai Moat")
-            // .date("13th April")
-            // .time("10.00am - 6.00 pm.")
-            // .petAllowed(true)
-            // .build());
-
-        // organizerRepository.save(Organizer.builder()
-            // .organizationName("Kat Laydee")
-            // .address("Somewhere.")
-            // .build());
-        // organizerRepository.save(Organizer.builder()
-            // .organizationName("Fern Pollin")
-            // .address("Somewhere.")
-            // .build());
-        // organizerRepository.save(Organizer.builder()
-            // .organizationName("Carey Wales")
-            // .address("Somewhere.")
-            // .build());
-        // organizerRepository.save(Organizer.builder()
-            // .organizationName("Dawg Dahd")
-            // .address("Somewhere.")
-            // .build());
-        // organizerRepository.save(Organizer.builder()
-            // .organizationName("Kahn Opiner")
-            // .address("Somewhere.")
-            // .build());
-        // organizerRepository.save(Organizer.builder()
-            // .organizationName("Brody Kill")
-            // .address("Somewhere.")
-            // .build());
+    User user1, user2, user3;
+    private void addUser() {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        user1 = User.builder()
+            .username("admin")
+            .password(encoder.encode("admin"))
+            .firstname("admin")
+            .lastname("admin")
+            .email("admin@admin.com")
+            .lastPasswordResetDate(Date.from(LocalDate.of(2021, 01, 01).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+            .build();
+        user2 = User.builder()
+            .username("user")
+            .password(encoder.encode("user"))
+            .firstname("user")
+            .lastname("user")
+            .email("enabled@user.com")
+            .lastPasswordResetDate(Date.from(LocalDate.of(2021, 01, 01).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+            .build();
+        user3 = User.builder()
+            .username("disableUser")
+            .password(encoder.encode("disableUser"))
+            .firstname("disableUser")
+            .lastname("disableUser")
+            .email("disableUser@user.com")
+            .lastPasswordResetDate(Date.from(LocalDate.of(2021, 01, 01).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+            .build();
 
         
+        user1.getRoles().add(Role.ROLE_ADMIN);
+        user1.getRoles().add(Role.ROLE_DISTRIBUTOR);
+        user2.getRoles().add(Role.ROLE_DISTRIBUTOR);
+        user3.getRoles().add(Role.ROLE_DISTRIBUTOR);
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+
     }
 }
 
