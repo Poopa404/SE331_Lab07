@@ -1,5 +1,4 @@
 package se331.lab07backend.dao;
-
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
