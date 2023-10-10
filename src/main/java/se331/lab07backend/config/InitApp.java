@@ -29,6 +29,8 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
     final OrganizerRepository organizerRepository;
     final ParticipantRepository participantRepository;
     final UserRepository userRepository;
+    User user1, user2, user3;
+
     @Override
     @Transactional
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
@@ -136,44 +138,47 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
         org3.getOwnEvents().add(tempEvent);
 
         addUser();
+        org1.setUser(user1);
+        user1.setOrganizer(org1);
+        org2.setUser(user2);
+        user2.setOrganizer(org2);
+        org3.setUser(user3);
+        user3.setOrganizer(org3);
+        System.out.println("InitApp finished");
     }
 
-    User user1, user2, user3;
     private void addUser() {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
-        user1 = User.builder()
+        user1 = userRepository.save(User.builder()
             .username("admin")
             .password(encoder.encode("admin"))
             .firstname("admin")
             .lastname("admin")
             .email("admin@admin.com")
             .lastPasswordResetDate(Date.from(LocalDate.of(2021, 01, 01).atStartOfDay(ZoneId.systemDefault()).toInstant()))
-            .build();
-        user2 = User.builder()
+            .build());
+        user2 = userRepository.save(User.builder()
             .username("user")
             .password(encoder.encode("user"))
             .firstname("user")
             .lastname("user")
             .email("enabled@user.com")
             .lastPasswordResetDate(Date.from(LocalDate.of(2021, 01, 01).atStartOfDay(ZoneId.systemDefault()).toInstant()))
-            .build();
-        user3 = User.builder()
+            .build());
+        user3 = userRepository.save(User.builder()
             .username("disableUser")
             .password(encoder.encode("disableUser"))
             .firstname("disableUser")
             .lastname("disableUser")
             .email("disableUser@user.com")
             .lastPasswordResetDate(Date.from(LocalDate.of(2021, 01, 01).atStartOfDay(ZoneId.systemDefault()).toInstant()))
-            .build();
+            .build());
 
         
         user1.getRoles().add(Role.ROLE_ADMIN);
         user1.getRoles().add(Role.ROLE_DISTRIBUTOR);
         user2.getRoles().add(Role.ROLE_DISTRIBUTOR);
         user3.getRoles().add(Role.ROLE_DISTRIBUTOR);
-        userRepository.save(user1);
-        userRepository.save(user2);
-        userRepository.save(user3);
 
     }
 }

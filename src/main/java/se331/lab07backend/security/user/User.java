@@ -10,6 +10,9 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import se331.lab07backend.entity.Organizer;
+import se331.lab07backend.entity.OrganizerDTO;
 import se331.lab07backend.security.token.Token;
 
 import java.util.ArrayList;
@@ -33,11 +36,13 @@ public class User implements UserDetails {
   private String firstname;
   private String lastname;
   private Date lastPasswordResetDate;
+  @OneToOne(mappedBy = "user")
+  Organizer organizer;
   @Column(unique = true)
   private String username;
   private String email;
   private String password;
-
+  
   @Enumerated(EnumType.STRING)
   @ElementCollection
   @Builder.Default

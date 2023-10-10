@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import se331.lab07backend.entity.OrganizerAuthDTO;
 
 @Data
 @Builder
@@ -16,4 +17,6 @@ public class AuthenticationResponse {
   private String accessToken;
   @JsonProperty("refresh_token")
   private String refreshToken;
+  @JsonProperty("user")
+  private OrganizerAuthDTO user;
 }

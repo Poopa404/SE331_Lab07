@@ -9,11 +9,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import se331.lab07backend.security.user.User;
 
 @Data
 @Builder
@@ -32,4 +34,6 @@ public class Organizer {
     List<Event> ownEvents = new ArrayList<>();
     @ElementCollection
     List<String> images;
+    @OneToOne
+    User user;
 }

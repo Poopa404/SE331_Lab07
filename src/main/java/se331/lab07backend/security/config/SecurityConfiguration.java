@@ -3,6 +3,7 @@ package se331.lab07backend.security.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import static org.springframework.security.config.Customizer.withDefaults;
+
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +33,15 @@ public class SecurityConfiguration {
     http
             .csrf((crsf) -> crsf.disable())
             .authorizeHttpRequests((authorize) -> {
-                authorize.requestMatchers("/api/v1/auth/**").permitAll().anyRequest().authenticated();
+                authorize.requestMatchers("/api/v1/auth/**").permitAll()
+                  .requestMatchers(HttpMethod.GET, "/events").permitAll()
+                  .requestMatchers(HttpMethod.GET, "/organizers").permitAll()
+                  .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                  .requestMatchers(HttpMethod.POST, "/events").hasRole("ADMIN")
+                  .requestMatchers(HttpMethod.POST, "/organizers").hasRole("ADMIN")
+                  .requestMatchers(HttpMethod.POST, "/uploadFile").hasRole("ADMIN")
+                  .requestMatchers(HttpMethod.POST, "/uploadImage").hasRole("ADMIN")
+                  .anyRequest().authenticated();
             })
 
             .sessionManagement((session) ->{
@@ -45,8 +56,9 @@ public class SecurityConfiguration {
               logout.addLogoutHandler(logoutHandler);
               logout.logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
             })
-    ;
 
+    ;
+    http.cors(withDefaults());
     return http.build();
 
   }

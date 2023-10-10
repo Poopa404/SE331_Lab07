@@ -11,6 +11,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import se331.lab07backend.entity.Organizer;
+import se331.lab07backend.repository.OrganizerRepository;
 import se331.lab07backend.security.config.JwtService;
 import se331.lab07backend.security.token.Token;
 import se331.lab07backend.security.token.TokenRepository;
@@ -18,6 +21,7 @@ import se331.lab07backend.security.token.TokenType;
 import se331.lab07backend.security.user.Role;
 import se331.lab07backend.security.user.User;
 import se331.lab07backend.security.user.UserRepository;
+import se331.lab07backend.util.LabMapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,6 +29,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+  private final OrganizerRepository organizerRepository;
   private final UserRepository repository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
@@ -32,7 +37,12 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public AuthenticationResponse register(RegisterRequest request) {
+    Organizer org = organizerRepository.save(Organizer.builder()
+      .name(request.getUsername())
+      .build()
+    );
     User user = User.builder()
+            .username(request.getUsername())
             .firstname(request.getFirstname())
             .lastname(request.getLastname())
             .email(request.getEmail())
@@ -40,12 +50,16 @@ public class AuthenticationService {
             .roles(List.of(Role.ROLE_DISTRIBUTOR))
             .build();
     var savedUser = repository.save(user);
+    savedUser.setOrganizer(org);
+    org.setUser(savedUser);
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
     saveUserToken(savedUser, jwtToken);
+    System.out.println("register");
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
-            .refreshToken(refreshToken)
+        .refreshToken(refreshToken)
+        .user(LabMapper.INSTANCE.getOrganizerAuthDTO(savedUser.getOrganizer()))
         .build();
   }
 
@@ -66,6 +80,7 @@ public class AuthenticationService {
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
+            .user(LabMapper.INSTANCE.getOrganizerAuthDTO(user.getOrganizer()))
             .build();
   }
 
@@ -113,6 +128,7 @@ public class AuthenticationService {
         AuthenticationResponse authResponse = AuthenticationResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .user(LabMapper.INSTANCE.getOrganizerAuthDTO(user.getOrganizer()))
                 .build();
         new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
       }

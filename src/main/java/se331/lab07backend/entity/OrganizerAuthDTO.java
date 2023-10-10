@@ -3,21 +3,19 @@ package se331.lab07backend.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.auto.value.AutoValue.Builder;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se331.lab07backend.security.user.User;
-
+import se331.lab07backend.security.user.Role;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrganizerDTO {
+public class OrganizerAuthDTO {
     Long id;
     String name;
-    @Builder.Default
-    List<OrganizerOwnEventsDTO> ownEvents = new ArrayList<>();
-    List<String> images;
+    List<Role> roles = new ArrayList<>();
 }
